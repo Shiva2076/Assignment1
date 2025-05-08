@@ -27,18 +27,16 @@ const initializeFirebase = () => {
       storage = getStorage(app)
       googleProvider = new GoogleAuthProvider()
       
-      // For debugging
       if (process.env.NODE_ENV === 'development') {
         console.log('Firebase initialized successfully')
       }
     }
   } catch (error) {
     console.error("Firebase initialization error:", error)
-    throw error // Re-throw for error boundaries
+    throw error 
   }
 }
 
-// Initialize immediately in browser context
 if (typeof window !== "undefined") {
   initializeFirebase()
 }

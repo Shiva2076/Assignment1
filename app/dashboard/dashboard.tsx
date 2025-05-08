@@ -20,7 +20,6 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Real-time job listener
   useEffect(() => {
     let unsubscribeJobs = () => {};
     
@@ -30,7 +29,6 @@ export default function DashboardPage() {
           if (currentUser) {
             setUser(currentUser);
             
-            // Set up real-time listener for jobs
             const jobsQuery = query(collection(db, "jobs"), orderBy("createdAt", "desc"));
             unsubscribeJobs = onSnapshot(jobsQuery, (snapshot) => {
               const jobsList = snapshot.docs.map(doc => ({

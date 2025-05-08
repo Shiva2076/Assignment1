@@ -33,7 +33,6 @@ export default function JobDetailsPage({ params }: { params: Promise<{ jobId: st
   const [copied, setCopied] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
-  // Unwrap params to extract jobId
   useEffect(() => {
     async function unwrapParams() {
       const resolvedParams = await params;

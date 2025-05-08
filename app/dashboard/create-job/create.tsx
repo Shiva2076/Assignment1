@@ -50,9 +50,8 @@ export default function CreateJobPage() {
         description: "Job created successfully" 
       });
       
-      // Redirect to dashboard after successful creation
       router.push("/dashboard");
-      router.refresh(); // Optional: Refresh to show the new job
+      router.refresh();
 
     } catch (error: any) {
       toast({

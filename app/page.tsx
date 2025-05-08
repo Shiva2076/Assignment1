@@ -25,14 +25,12 @@ export default function JobsPage() {
         setLoading(true)
         setError("")
         
-        // Fetch active jobs from Firebase
         const jobsRef = collection(db, "jobs")
         const jobsSnapshot = await getDocs(jobsRef)
         
         const jobsData = jobsSnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data(),
-          // Convert Firestore timestamp to Date if it exists
           createdAt: doc.data().createdAt?.toDate()
         }))
         
@@ -60,7 +58,7 @@ export default function JobsPage() {
   });
 
   const sortedJobs = [...filteredJobs].sort((a, b) => {
-    const dateA = a.createdAt || new Date(0) // Fallback to epoch if no date
+    const dateA = a.createdAt || new Date(0)
     const dateB = b.createdAt || new Date(0)
     return sortOrder === "newest" ? dateB.getTime() - dateA.getTime() : dateA.getTime() - dateB.getTime()
   })
