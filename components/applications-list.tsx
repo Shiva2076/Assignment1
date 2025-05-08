@@ -12,6 +12,7 @@ import { format } from "date-fns";
 export function ApplicationsList({ jobId }) {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [deletingId, setDeletingId] = useState(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -58,7 +59,23 @@ export function ApplicationsList({ jobId }) {
     };
   }, [jobId]);
 
-  
+  const handleDelete = async (id) => {
+    try {
+      setDeletingId(id);
+      await applicationService.deleteApplication(id);
+      setApplications(prev => prev.filter(app => app.id !== id));
+      toast({ title: "Success", description: "Application deleted" });
+    } catch (error) {
+      console.error("Delete error:", error);
+      toast({
+        title: "Error",
+        description: error.message || "Delete failed",
+        variant: "destructive",
+      });
+    } finally {
+      setDeletingId(null);
+    }
+  };
 
   const formatDate = (timestamp) => {
     if (!timestamp?.toDate) return "N/A";
@@ -118,7 +135,7 @@ export function ApplicationsList({ jobId }) {
                     Resume
                   </Button>
                 )}
-               
+                
               </div>
             </div>
             {app.coverLetter && (
