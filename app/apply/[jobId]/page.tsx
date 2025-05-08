@@ -98,7 +98,6 @@ export default function ApplyPage({ params }: { params: { jobId: string } }) {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0]
-      // Validate file type
       const validTypes = ["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"]
       if (!validTypes.includes(file.type)) {
         toast({
@@ -108,7 +107,6 @@ export default function ApplyPage({ params }: { params: { jobId: string } }) {
         })
         return
       }
-      // Validate file size (5MB max)
       if (file.size > 5 * 1024 * 1024) {
         toast({
           title: "File Too Large",
@@ -233,6 +231,13 @@ export default function ApplyPage({ params }: { params: { jobId: string } }) {
         submittedAt: serverTimestamp(),
       })
 
+      // Show success toast
+      toast({
+        title: "Success!",
+        description: `Your application for ${job?.title} has been submitted.`,
+        variant: "default",
+      })
+
       setSubmitted(true)
     } catch (error) {
       console.error("Error submitting application:", error)
@@ -317,7 +322,7 @@ export default function ApplyPage({ params }: { params: { jobId: string } }) {
               <h3 className="font-semibold mb-2">Job Description</h3>
               <div className="whitespace-pre-line text-sm">{job.description}</div>
             </div>
-
+            
             <div className="space-y-2">
               <Label htmlFor="fullName">Full Name *</Label>
               <Input

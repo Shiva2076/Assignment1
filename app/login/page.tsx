@@ -38,11 +38,36 @@ export default function LoginPage() {
         description: "Logged in successfully",
       });
       
-      router.push("/dashboard");
+      // Redirect after 1 second to allow toast to be visible
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 1000);
     } catch (error: any) {
+      let errorMessage = "An error occurred during login.";
+      
+      // Handle Firebase authentication errors
+      if (error.code) {
+        switch (error.code) {
+          case "auth/invalid-email":
+            errorMessage = "Invalid email address format.";
+            break;
+          case "auth/user-disabled":
+            errorMessage = "This account has been disabled.";
+            break;
+          case "auth/user-not-found":
+            errorMessage = "No account found with this email.";
+            break;
+          case "auth/wrong-password":
+            errorMessage = "Incorrect password.";
+            break;
+          default:
+            errorMessage = error.message || "Unknown error occurred.";
+        }
+      }
+      
       toast({
         title: "Login Failed",
-        description: error.message,
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
